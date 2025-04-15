@@ -1,3 +1,7 @@
+# 2025-04-15 
+Time for syntax update, since S1 have moved over to their 2.x version, the syntaxes mentioned here are no longer functioning the way it used to.
+// kryssar
+
 # SentinelOne Queries
 Repository of SentinelOne Deep Visibility queries.
 

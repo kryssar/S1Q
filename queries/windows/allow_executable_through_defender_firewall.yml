@@ -8,8 +8,11 @@ mitre:
    technique: T1562
    subtechnique: 002
 operating_system: windows
-query: TgtProcName = "netsh.exe" AND TgtProcCmdLine ContainsCIS "add rule" AND TgtProcCmdLine
-  ContainsCIS "program=" AND TgtProcCmdLine In Contains Anycase ("C:\Users","C:\Windows\Temp")
+query: filter
+  tgt.process.name == "netsh.exe" &&
+  tgt.process.cmdline contains "add rule" &&
+  tgt.process.cmdline contains "program=" &&
+  tgt.process.cmdline contains:anycase ("C:\\Users", "C:\\Windows\\Temp")
 false_positives: 
 tags: 
 references:
