@@ -1,14 +1,15 @@
-title: Assoc Default File Change
-description: Detection of file association change through assoc command.
-author: keyboardcrunch
+title: File Association Modification via assoc
+description: 	Detects use of the assoc command to change file associations, which can be abused for persistence or execution redirection.
+author: keyboardcrunch && kryssar
 date: 10/10/2020
-modified: 05/12/2020
+modified: 15/04/2025
 mitre:
    tactic: Privilege Escalation
    technique: T1546
    subtechnique: 008
 operating_system: windows
-query: 'TgtProcCmdLine ContainsCIS "assoc" and TgtProcCmdLine RegExp ".*=.*"'
+query: filter
+  tgt.process.name == "cmd.exe" && tgt.process.cmdline matches "\\bassoc\\b\\s+\\S+=\\S+"
 false_positives: null
 tags: null
 
