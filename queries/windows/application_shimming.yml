@@ -8,8 +8,22 @@ mitre:
    technique: T1546
    subtechnique: 008
 operating_system: windows
-query: (SrcProcName = "sdbinst.exe" and ProcessCmd ContainsCIS ".sdb") OR ((RegistryKeyPath
-  ContainsCIS "AppInit_DLLs" OR RegistryPath  ContainsCIS "AppCompatFlags") AND (EventType
-  = "Registry Value Create" OR EventType = "Registry Value Modified"))
+query: filter
+  (
+    src.process.name == "sdbinst.exe" &&
+    process.command_line contains ".sdb"
+  )
+  ||
+  (
+    (
+      registry.keyPath contains "AppInit_DLLs" ||
+      registry.path contains "AppCompatFlags"
+    )
+    &&
+    (
+      event.type == "Registry Value Create" ||
+      event.type == "Registry Value Modified"
+    )
+  )
 false_positives: null
 tags: null

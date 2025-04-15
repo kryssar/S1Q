@@ -8,9 +8,17 @@ mitre:
    technique: T1562
    subtechnique: 002
 operating_system: windows
-query: (TgtProcName = "netsh.exe" AND TgtProcCmdLine ContainsCIS "remote desktop"
-  AND TgtProcCmdLine ContainsCIS "enable=Yes") OR (TgtProcName = "netsh.exe" AND TgtProcCmdLine
-  ContainsCIS "file and printer sharing" AND TgtProcCmdLine ContainsCIS "enable=Yes")
+query: filter
+  (
+    tgt.process.name == "netsh.exe" &&
+    tgt.process.cmdline contains "remote desktop" &&
+    tgt.process.cmdline contains "enable=Yes"
+  ) ||
+  (
+    tgt.process.name == "netsh.exe" &&
+    tgt.process.cmdline contains "file and printer sharing" &&
+    tgt.process.cmdline contains "enable=Yes"
+  )
 false_positives: 
 tags: 
 references:
