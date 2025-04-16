@@ -2,8 +2,8 @@ title: Account Access Removal
 description: Detects the deletion of a local user account or removal of Active Directory
   groups through powershell cmdlets.
 author: keyboardcrunch && kryssar
-date: 10/10/2020
-modified: 04/15/2025
+date: 2020-10-10
+modified: 2025-04-15
 mitre:
    tactic: Impact
    technique: T1531

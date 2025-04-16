@@ -1,8 +1,8 @@
 title: File Association Modification via assoc
 description: 	Detects use of the assoc command to change file associations, which can be abused for persistence or execution redirection.
 author: keyboardcrunch && kryssar
-date: 10/10/2020
-modified: 15/04/2025
+date: 2020-10-10
+modified: 2025-04-15
 mitre:
    tactic: Privilege Escalation
    technique: T1546
