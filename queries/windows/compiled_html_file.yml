@@ -1,15 +1,14 @@
 title: Compiled HTML File
 description: Detect malicious chm file spawning a process or hh.exe loading a remote payloads.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Defense Evasion
    technique: T1218
    subtechnique: 001
 operating_system: windows
-query: (SrcProcName = "hh.exe" AND EventType = "Open Remote Process Handle") OR (SrcProcName
-  = "hh.exe" AND SrcProcCmdLine RegExp "https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)")
+query: (src.process.name = "hh.exe" AND event.type = "Open Remote Process Handle") OR (src.process.name = "hh.exe" AND src.process.cmdline matches "https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)")
 false_positives: 
 tags: 
 

@@ -4,29 +4,13 @@ description: Detect remote content downloads from DesktopImgDownldr
   processes and noise with SrcProcParentName Not In ().
 author: keyboardcrunch && kryssar
 date: 2020-10-10
-modified: 2025-04-16
+modified: 2025-04-17
 mitre:
    tactic: Defense Evasion, Persistence
    technique: T1197
    subtechnique: null
 operating_system: windows
-query: filter
-  (
-    (
-      tgt.process.name in:anycase ("bitsadmin.exe", "desktopimgdownldr.exe") &&
-      (
-        tgt.process.cmdline matches "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)" ||
-        tgt.process.cmdline contains "/setnotifycmdline "
-      )
-    )
-    ||
-    (
-      tgt.process.name == "powershell.exe" &&
-      tgt.process.cmdline contains "Start-BitsTransfer"
-    )
-  )
-  &&
-  !(src.process.parent.name in ("services.exe", "smss.exe", "wininit.exe"))
+query: ((tgt.process.name in:anycase ("bitsadmin.exe", "desktopimgdownldr.exe") && (tgt.process.cmdline matches "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&//=]*)" || tgt.process.cmdline contains "/setnotifycmdline ")) || ( tgt.process.name == "powershell.exe" && tgt.process.cmdline contains "Start-BitsTransfer")) && !(src.process.parent.name in ("services.exe", "smss.exe", "wininit.exe"))
 false_positives: 
    - Powershell file downloads
 tags: null

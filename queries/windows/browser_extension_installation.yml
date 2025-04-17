@@ -9,12 +9,7 @@ mitre:
    technique: T1176
    subtechnique: 
 operating_system: windows
-query: filter
-  (
-    tgt.file.path matches "\\bWebstore Downloads\\b.*\\.crx$" ||
-    tgt.file.path matches "\\bstaged\\b.*\\.xpi$"
-  ) &&
-  event.type == "File Creation"
-false_positives: 
+query: (tgt.file.path matches "\\bWebstore Downloads\\b.*\\.crx$" || tgt.file.path matches "\\bstaged\\b.*\\.xpi$") && event.type == "File Creation"
+false_positives: Users with permission to install whichever plugin/extension they want to their browser may trigger this alert.
 tags: 
 

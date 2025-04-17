@@ -1,17 +1,15 @@
 title: Bypass User Access Control
 description: Detection of UAC bypass through tampering with Shell Open for .ms-settings
   or .msc file types. Also includes detection for CMSTPLUA COM interface abuse by GUID.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Defense Evasion, Privilege Escalation
    technique: T1548
    subtechnique: 002
 operating_system: windows
-query: (SrcProcCmdLine ContainsCIS "ms-settings\shell\open\command" OR SrcProcCmdLine
-  ContainsCIS "mscfile\shell\open\command") OR (TgtProcDisplayName = "COM Surrogate"
-  AND TgtProcCmdLine ContainsCIS "{3E5FC7F9-9A51-4367-9063-A120244FBEC7}")
+query: (src.process.cmdline contains "ms-settings\shell\open\command" OR src.process.cmdline contains "mscfile\shell\open\command") OR (tgt.process.displayname = "COM Surrogate" AND tgt.process.cmdline contains "{3E5FC7F9-9A51-4367-9063-A120244FBEC7}")
 false_positives: 
 tags: 
 

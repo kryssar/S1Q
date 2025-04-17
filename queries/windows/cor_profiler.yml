@@ -1,16 +1,15 @@
 title: COR Profiler
 description: Detection of unmanaged COR profiler hooking of .NET CLR through registry
   or process command.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Defense Evasion, Persistence, Privilege Escalation
    technique: T1574
    subtechnique: 012
 operating_system: windows
-query: (SrcProcCmdScript Contains "COR_" AND SrcProcCmdScript Contains "\Environment")
-  OR RegistryKeyPath Contains "COR_PROFILER_PATH" OR SrcProcCmdScript Contains "$env:COR_"
+query: (cmdScript.content contains "COR_" AND cmdScript.content contains "\Environment") OR registry.keyPath contains "COR_PROFILER_PATH" OR cmdScript.content contains "$env:COR_"
 false_positives: null
 tags: null
 

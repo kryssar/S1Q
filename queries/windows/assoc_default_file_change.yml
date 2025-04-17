@@ -8,8 +8,7 @@ mitre:
    technique: T1546
    subtechnique: 008
 operating_system: windows
-query: filter
-  tgt.process.name == "cmd.exe" && tgt.process.cmdline matches "\\bassoc\\b\\s+\\S+=\\S+"
+query: tgt.process.name == "cmd.exe" && tgt.process.cmdline matches "\\bassoc\\b\\s+\\S+=\\S+"
 false_positives: null
 tags: null
 

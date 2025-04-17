@@ -2,16 +2,15 @@ title: CSC Compile After Delivery
 description: Detect specific compilation of executables as well as dynamic
   compilation through detection of csc.exe creating executable files (both dll and
   exe). 
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Defense Evasion
    technique: T1027
    subtechnique: 004
 operating_system: windows
-query: (TgtProcName = "csc.exe" AND SrcProcCmdLine Contains "/target:exe") OR (SrcProcName  =
-  "csc.exe" AND TgtFileIsExecutable = "true" AND SrcProcParentName Not In ("svchost.exe"))
+query: (tgt.process.name = "csc.exe" AND src.process.cmdline contains "/target:exe") OR (src.process.name = "csc.exe" AND tgt.file.isExecutable = "true" AND !(src.process.parent.name in ("svchost.exe")))
 false_positives: 
    - Absolute/Computrace software.
 tags: null
