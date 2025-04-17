@@ -1,14 +1,14 @@
 title: DD Data Destruction
 description: Detect data destruction with the DD command. Alternatively, DV 3.0 with 4.4 Agents will support TgtFileDeletionCount > "100" query for detection of over 100 files deleted, which can be combined with *FileType* for filtering.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Impact
    technique: T1485
    subtechnique: 
 operating_system: linux
-query: AgentOS In ("linux","osx") AND TgtProcName = "dd" AND TgtProcCmdLine ContainsCIS "of="
+query: os.name in ("linux","osx") AND tgt.process.name = "dd" AND tgt.process.cmdline contains "of="
 false_positives: 
    - Disk image captures
 tags: 

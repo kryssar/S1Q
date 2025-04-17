@@ -1,15 +1,15 @@
 title: Linux Network Sniffing
 description: Detect scripted packet capture using tcpdump or tshark, not limited by packet count or interface.
-author: keyboardcrunch
-date: 17/03/2021
-modified: null
+author: keyboardcrunch && kryssar
+date: 2021-03-17
+modified: 2025-04-17
 mitre: 
    tactic: Credential Access
    technique: T1040
    subtechnique: null
 operating_system: linux
-query: TgtProcName In AnyCase ("tcpdump","tshark")
-false_positives: null
+query: tgt.process.name in:anycase ("tcpdump","tshark")
+false_positives: wifi-tools and similar, analyzing wifi/coverage
 tags: null
 references:
    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1040/T1040.md

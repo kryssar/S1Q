@@ -8,11 +8,7 @@ mitre:
    technique: T1562
    subtechnique: 002
 operating_system: windows
-query: filter
-  tgt.process.name == "netsh.exe" &&
-  tgt.process.cmdline contains "add rule" &&
-  tgt.process.cmdline contains "program=" &&
-  tgt.process.cmdline contains:anycase ("C:\\Users", "C:\\Windows\\Temp")
+query: tgt.process.name == "netsh.exe" && tgt.process.cmdline contains "add rule" && tgt.process.cmdline contains "program=" && tgt.process.cmdline contains:anycase ("C:\\Users", "C:\\Windows\\Temp") && !(account.name contains 'DW')
 false_positives: 
 tags: 
 references:

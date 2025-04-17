@@ -8,8 +8,7 @@ mitre:
    technique: T1562
    subtechnique: 
 operating_system: linux
-query: TgtProcName In Contains ("service","chkconfig","systemctl") AND TgtProcCmdLine
-  In Contains ("rsyslog stop","off rsyslog","stop rsyslog","disable rsyslog")
-false_positives: 
+query: tgt.process.name contains ("service","chkconfig","systemctl") AND tgt.process.cmdline contains ("rsyslog stop","off rsyslog","stop rsyslog","disable rsyslog")
+false_positives: system management / monitoring
 tags: 
 references:

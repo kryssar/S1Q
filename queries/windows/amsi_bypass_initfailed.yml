@@ -8,9 +8,7 @@ mitre:
    technique: T1562
    subtechnique: 001
 operating_system: windows
-query: filter
-  tgt.process.cmdline contains "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)" ||
-  src.process.script contains "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)"
+query: tgt.process.cmdline contains "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)" || src.process.script contains "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)"
 false_positives: 
 tags: 
 references:

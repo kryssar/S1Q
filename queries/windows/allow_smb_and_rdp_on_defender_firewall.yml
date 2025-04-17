@@ -8,17 +8,7 @@ mitre:
    technique: T1562
    subtechnique: 002
 operating_system: windows
-query: filter
-  (
-    tgt.process.name == "netsh.exe" &&
-    tgt.process.cmdline contains "remote desktop" &&
-    tgt.process.cmdline contains "enable=Yes"
-  ) ||
-  (
-    tgt.process.name == "netsh.exe" &&
-    tgt.process.cmdline contains "file and printer sharing" &&
-    tgt.process.cmdline contains "enable=Yes"
-  )
+query: (tgt.process.name == "netsh.exe" && tgt.process.cmdline contains "remote desktop" && tgt.process.cmdline contains "enable=Yes" ) || (tgt.process.name == "netsh.exe" && tgt.process.cmdline contains "file and printer sharing" && tgt.process.cmdline contains "enable=Yes" ) && !(account.name contains 'DW')
 false_positives: 
 tags: 
 references:

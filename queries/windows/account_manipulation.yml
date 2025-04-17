@@ -8,15 +8,7 @@ mitre:
    technique: T1098
    subtechnique: 
 operating_system: windows
-query: filter
-  (
-    osSrc.process.cmdline contains:anycase ("New-ADUser", "Rename-LocalUser", "Set-LocalUser") ||
-    src.process.script contains:anycase ("New-ADUser", "Rename-LocalUser", "Set-LocalUser") ||
-    osSrc.process.cmdline matches "\\bAdd-ADGroupMember\\b.*\\bDomain Admins\\b" ||
-    src.process.script matches "\\bAdd-ADGroupMember\\b.*\\bDomain Admins\\b"
-  )
-  &&
-  !(osSrc.process.parent.name in ("WmiPrvSE.exe", "AppVClient.exe", "svchost.exe", "CompatTelRunner.exe"))
+query: (osSrc.process.cmdline contains:anycase ("New-ADUser", "Rename-LocalUser", "Set-LocalUser") || src.process.script contains:anycase ("New-ADUser", "Rename-LocalUser", "Set-LocalUser") || osSrc.process.cmdline matches "\\bAdd-ADGroupMember\\b.*\\bDomain Admins\\b" || src.process.script matches "\\bAdd-ADGroupMember\\b.*\\bDomain Admins\\b" ) && !(osSrc.process.parent.name in ("WmiPrvSE.exe", "AppVClient.exe", "svchost.exe", "CompatTelRunner.exe"))
 false_positives: 
    - logon scripts
    - Configuration Manager CI/BL Items

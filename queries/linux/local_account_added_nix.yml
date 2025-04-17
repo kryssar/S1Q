@@ -1,14 +1,14 @@
 title: Local Account Added Linux
 description: Query all instances of local accounts being Linux and OSX.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Persistence
    technique: T1136
    subtechnique: 
 operating_system: linux
-query: SrcProcCmdLine In Contains Anycase ("useradd")
+query: os.name in:anycase ("linux", "macos") && src.process.cmdline contains ("useradd")
 false_positives: 
    - General account maintenance.
 tags: 

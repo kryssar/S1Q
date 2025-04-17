@@ -1,14 +1,14 @@
 title: SolarWinds Process Disabling Services
 description: Detect the modification of service start type by SolarWinds processes.
-author: keyboardcrunch
-date: 18/12/2020
-modified:
+author: keyboardcrunch && kryssar
+date: 2020-12-18
+modified: 2025-04-16
 mitre: 
    tactic: Defense Evasion
    technique: T1562
    subtechnique: 001
 operating_system: windows
-query: (RegistryKeyPath RegExp "\bMACHINE\\SYSTEM\\.*ControlSet.*\\Services\\.*\\Start" AND EventType = "Registry Value Modified") AND SrcProcName RegExp "(.*\.)?((SolarWinds.BusinessLayerHost.*|ConfigurationWizard.*|NetflowDatabasemaintenance.*|NetFlowService.*|SolarWinds.Administration.*|SolarWinds.Collector.Service.*|SolarwindsDiagnostics.*).exe)"
+query: (registry.keyPath matches "\bMACHINE\\SYSTEM\\.*ControlSet.*\\Services\\.*\\Start" AND event.type = "Registry Value Modified") AND src.process.name matches "(.*\.)?((SolarWinds.BusinessLayerHost.*|ConfigurationWizard.*|NetflowDatabasemaintenance.*|NetFlowService.*|SolarWinds.Administration.*|SolarWinds.Collector.Service.*|SolarwindsDiagnostics.*).exe)"
 false_positives:
 tags:
    - UNC2452
