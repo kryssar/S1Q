@@ -1,15 +1,15 @@
 title: Windows Service Creation Modification
 description: Detects creation and modification of windows services through binPath
   argument to sc.exe.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-22
 mitre:
    tactic: Persistence
    technique: T1543
    subtechnique: 003
 operating_system: windows
-query: TgtProcName = "sc.exe" AND TgtProcCmdLine Contains "binPath="
-false_positives: null
+query: tgt.process.name = "sc.exe" AND tgt.process.cmdline contains "binPath=" AND !(src.process.name in ("msiexec.exe", "trustedinstaller.exe", "dism.exe", "setup.exe", "connector.exe")) AND !(tgt.process.cmdline contains:anycase ("C:\\Windows\\System32\\DriverStore", "C:\\Program Files\\Dell", "C:\\Windows\\Installer", "C:\\Program Files\\Cloudflare\\Cloudflare WARP")) AND !(tgt.process.signer in ("Microsoft Corporation", "Dell Inc."))
+false_positives: users that are allowed to install services 
 tags: null
 
