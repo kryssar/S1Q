@@ -3,19 +3,18 @@ description: Detects usage of Powershell to download a malicious files. The belo
   will find CommandLine or CommandScript downloads using multiple cradle methods as
   documented here HarmJ0y. This query should only be used for hunting purposes 
   and covers most unobfuscated powershell cradles.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-24
 mitre:
    tactic: Initial Access
    technique: T1566
    subtechnique: 001
 operating_system: windows
-query: (SrcProcCmdLine In Contains Anycase ("Net.WebClient","(iwr","DownloadString(","WinHttp.WinHttpRequest","IEX
-  (","InternetExplorer.Application","Msxml2.XMLHTTP","MSXML2.ServerXMLHTTP") OR SrcProcCmdScript
-  In Contains Anycase ("Net.WebClient","(iwr","DownloadString(","WinHttp.WinHttpRequest","IEX
-  (","InternetExplorer.Application","Msxml2.XMLHTTP","MSXML2.ServerXMLHTTP"))
+query: (src.process.cmdline contains:anycase ("Net.WebClient", "(iwr", "DownloadString(", "WinHttp.WinHttpRequest", "IEX") OR cmdscript.content contains:anycase ("Net.WebClient", "(iwr", "DownloadString(", "WinHttp.WinHttpRequest", "IEX")) AND NOT (src.process.name contains:anycase ("Adobe_Updater", "Acrobat", "Setup", "updater") OR src.process.parent.name contains:anycase ("Adobe", "Acrobat", "Update", "Installer")  OR src.process.cmdline contains:anycase ("C:\\Program Files\\Adobe\\", "C:\\Windows\\System32\\") OR src.process.cmdline matches "(?i)\\btrustedprocess\\b"   OR src.process.cmdline contains:anycase ("C:\\Windows\\Temp\\", "C:\\Users\\Public\\", "C:\\ProgramData\\") OR src.process.parent.name contains:anycase ("explorer.exe", "svchost.exe", "msiexec.exe", "dllhost.exe") OR src.process.cmdline contains:anycase ("powershell.exe", "cmd.exe", "mshta.exe") OR src.process.cmdline contains:anycase "InternetExplorer.Application" OR src.process.cmdline contains:anycase "Msxml2.XMLHTTP" OR src.process.cmdline matches "(?i)^.*\\.(vbs|cmd|bat|js)$") AND event.type in ("File Creation", "Network Activity", "Registry Change") AND NOT (src.process.cmdline contains:anycase "http" OR src.process.cmdline contains:anycase "https") AND (src.process.cmdline matches ".*[A-Za-z0-9]+\\.(exe|bat)$")
 false_positives: 
+    - Internet Explorer tends to use the WinHttp.WinHttpRequest object
+    - Powershell scripts that are not malicious
 tags: 
 references:
    - https://gist.github.com/HarmJ0y/bb48307ffa663256e239
