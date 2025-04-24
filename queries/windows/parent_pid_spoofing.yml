@@ -2,19 +2,15 @@ title: Parent PID Spoofing
 description: Detects parent PID spoofing through Cross Process indicators (SrcProcParentName
   limits scope heavily) as well as detecting the use of PPID-Spoof powershell script
   through Command Scripts indicators. Update the TgtProcName list to filter noise.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-24
 mitre:
    tactic: Defense Evasion, Privilege Escalation
    technique: T1134
    subtechnique: 004
 operating_system: windows
-query: (TgtProcRelation = "not_in_storyline" AND EventType = "Open Remote Process
-  Handle" AND SrcProcParentName In Contains Anycase ("userinit.exe","powershell.exe","cmd.exe")
-  AND TgtProcName != "sihost.exe" And TgtProcIntegrityLevel  != "LOW" AND TgtProcName
-  Not In ("SystemSettings.exe")) OR (SrcProcCmdScript ContainsCIS "PPID-Spoof" AND
-  SrcProcCmdScript ContainsCIS "hSpoofParent = [Kernel32]::OpenProcess")
+query: (tgt.process.relation = 'not_in_storyline' AND event.type = "Open Remote Process Handle" AND src.process.parent.name contains:anycase ("userinit.exe", "powershell.exe", "cmd.exe") AND tgt.process.name != "sihost.exe" AND tgt.process.integrityLevel != "LOW" AND tgt.process.name not in ("SystemSettings.exe")) OR (cmdScript.content contains "PPID-Spoof" AND cmdScript.content contains "hSpoofParent = [Kernel32]::OpenProcess")
 false_positives: 
    - Cross Process indicators are noisy
 tags: 

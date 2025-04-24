@@ -1,14 +1,14 @@
 title: Windows Network Sniffing
 description: Detect scripted packet capture using tshark or netsh, not limited by packet count or interface.
-author: keyboardcrunch
-date: 17/03/2021
-modified: null
+author: keyboardcrunch && kryssar
+date: 2021-03-17
+modified: 2025-04-24
 mitre: 
    tactic: Credential Access
    technique: T1040
    subtechnique: null
 operating_system: windows
-query: TgtProcName = "netsh.exe" and TgtProcCmdLine ContainsCIS "trace start" ) OR ProcessName = "tshark.exe"
+query: tgt.process.name = "netsh.exe" AND tgt.process.cmdline contains "trace start" OR src.process.name = "tshark.exe"
 false_positives: null
 tags: null
 references:
