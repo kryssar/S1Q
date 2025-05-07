@@ -1,15 +1,15 @@
 title: Registry Run Keys
 description: Detecting on the addition of registry keys to Run, RunOnce, RunOnceEx keys where Parent Process isn't "trusted".
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-07
 mitre:
    tactic: Persistence
    technique: T1547
    subtechnique: 001
 operating_system: windows
-query: ( RegistryKeyPath ContainsCIS "Windows\CurrentVersion\Run" AND EventType =
-  "Registry Key Create" ) AND SrcProcParentName Not In ("smss.exe","svchost.exe","SetupHost.exe","OneDriveSetup.exe","WindowsUpdateBox.exe")
-false_positives: null
+query: (registry.keyPath contains "Windows\\CurrentVersion\\Run" AND event.type = "Registry Key Create") AND !(src.process.parent.name in ('smss.exe','svchost.exe','SetupHost.exe','OneDriveSetup.exe','WindowsUpdateBox.exe','winlogon.exe'))
+false_positives: 
+   - Legitimate software installation (Jabra, etc.)
 tags: null
 

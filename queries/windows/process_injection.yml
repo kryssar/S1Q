@@ -2,16 +2,15 @@ title: Process Injection
 description: Detects Process Injection through execution of MavInject, filtering out
   noisy/expected activity. SrcProcParentName filter narrows Cross Process items to
   refine results.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-07
 mitre:
    tactic: Defense Evasion, Privilege Escalation
    technique: T1055
    subtechnique: 
 operating_system: windows
-query: (TgtProcName = "mavinject.exe" AND TgtProcCmdLine ContainsCIS "/injectrunning")
-  AND (SrcProcName Not In ("AppVClient.exe") AND SrcProcParentName Not In ("smss.exe"))
+query: (tgt.process.name = "mavinject.exe" AND tgt.process.cmdline contains "/injectrunning") AND !(src.process.name in("AppVClient.exe") AND !(src.process.parent.name in("smss.exe")))
 false_positives: 
    - Legitimate usage of MavInject
 tags: 

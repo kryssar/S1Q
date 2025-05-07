@@ -1,14 +1,14 @@
 title: RDP Hijacking
 description: Detects RDS and RemoteApp session redirections for lateral movement.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-07
 mitre:
    tactic: Lateral Movement
    technique: T1563
    subtechnique: 002
 operating_system: windows
-query: SrcProcName = "tscon.exe" AND SrcProcCmdLine ContainsCIS "/dest:"
+query: src.process.name = "tscon.exe" AND src.process.cmdline contains "/dest:"
 false_positives: null
 tags: null
 
