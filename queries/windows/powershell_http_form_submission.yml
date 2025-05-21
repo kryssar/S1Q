@@ -1,15 +1,14 @@
 title: PowerShell HTTP Form Submission
 description: Detection of powershell data POST and PUT with Invoke-WebRequest.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-07
 mitre:
    tactic: Exfiltration
    technique: T1020
    subtechnique: 
 operating_system: windows
-query: SrcProcCmdLine ContainsCIS "Invoke-WebRequest" AND (SrcProcCmdLine ContainsCIS
-  "-Method Put" OR SrcProcCmdLine ContainsCIS "-Method Post")
+query: src.process.cmdline contains 'Invoke-WebRequest' AND (src.process.cmdline contains '-Method Put' OR src.process.cmdline contains '-Method Post')
 false_positives: 
    - PowerShell HTTP form submissions.
 tags: 

@@ -1,14 +1,14 @@
 title: AT Scheduled Task
 description: Detect interactive process execution scheduled by AT command.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-16
 mitre:
    tactic: Execution, Persistence, Privilege Escalation
    technique: T1053
    subtechnique: 002
 operating_system: windows
-query: TgtProcName = "at.exe" AND TgtProcCmdLine ContainsCIS "/interactive "
+query: tgt.process.name = 'at.exe' && tgt.process.cmdline contains '/interactive'
 false_positives: null
 tags: null
 

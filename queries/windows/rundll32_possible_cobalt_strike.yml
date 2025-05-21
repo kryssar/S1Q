@@ -1,14 +1,14 @@
 title: Rundll32 Possible Cobalt Strike 
 description: Loose detection of lateral movement through SMB, commonly used with Cobalt Strike.
-author: keyboardcrunch
-date: 02/12/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-12-02
+modified: 2025-05-07
 mitre: 
    tactic: Defense Evasion
    technique: T1218
    subtechnique: 011
 operating_system: windows
-query: ( SrcProcName In AnyCase  ( "rundll32.exe" ) AND SrcProcCmdLine IS EMPTY ) OR ( SrcProcName In AnyCase  ( "rundll32.exe" ) AND NetConnOutCount > "0" AND SrcProcParentName Not In  ( "splwow64.exe" ) AND SrcProcParentName Not In  ( "msiexec.exe" ) AND SrcProcCmdLine RegExp ".*((?!C:\\windows\\system32\\spool\\DRIVERS\\.*,MonitorPrintJobStatus))$/gmi" )
+query: (src.process.namme in:anycase ("rundll32.exe") AND src.process.cmdline = "") OR (src.process.name in:anycase ("rundll32.exe") AND src.process.netConnOutCount > "0" AND !(src.process.parent.name in ("splwow64.exe", "msiexec.exe")) AND src.process.cmdline matches ".*((?!C:\\windows\\system32\\spool\\DRIVERS\\.*,MonitorPrintJobStatus))$/gmi")
 false_positives:
    - Printer drivers
    - High number of outbound SMB connections

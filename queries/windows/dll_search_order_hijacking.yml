@@ -1,15 +1,14 @@
 title: DLL Search Order Hijacking
 description: Detection of common DLL search order hijacks, currently only amsi.dll.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Defense Evasion, Persistence, Privilege Escalation
    technique: T1574
    subtechnique: 001
 operating_system: windows
-query: (FileFullName ContainsCIS "amsi.dll" AND FileFullName Does Not ContainCIS "System32")
-  AND EventType = "File Creation"
+query: (tgt.process.cmdline contains "amsi.dll" AND !(tgt.file.path contains "System32") AND event.type = "File Creation"
 false_positives: 
 tags: 
 

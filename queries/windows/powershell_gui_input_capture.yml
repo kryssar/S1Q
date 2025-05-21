@@ -1,17 +1,16 @@
 title: PowerShell GUI Input Capture
 description: Detect usage of Powershell UI.PromptForCredential and
   GetNetworkCredential().Password in CmdScript or CmdLine.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-07
 mitre:
    tactic: Credential Access
    technique: T1056
    subtechnique: 002
 operating_system: windows
-query: (TgtProcCmdline ContainsCIS ".UI.PromptForCredential(" AND TgtProcCmdline ContainsCIS  ".GetNetworkCredential().Password")
-  OR (SrcProcCmdScript ContainsCIS ".UI.PromptForCredential(" AND SrcProcCmdScript
-  ContainsCIS  ".GetNetworkCredential().Password")
-false_positives: null
+query: (tgt.process.cmdline contains '.UI.PromptForCredential(' AND tgt.process.cmdline contains '.GetNetworkCredential().Password') OR (cmdScript.content contains '.UI.PromptForCredential(' AND cmdScript.content contains '.GetNetworkCredential().Password')
+false_positives:
+    - Legitimate use of PowerShell GUI credential prompts. (Like CyberArk)
 tags: null
 

@@ -1,15 +1,14 @@
 title: Disable IIS Logging
 description: Detects disabling of IIS logging.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Defense Evasion
    technique: T1562
    subtechnique: 002
 operating_system: windows
-query: TgtProcName = "appcmd.exe" AND TgtProcCmdLine ContainsCIS "/dontLog:true" AND
-  TgtProcCmdLine ContainsCIS "/section:httplogging"
+query: tgt.process.name = "appcmd.exe" AND tgt.process.cmdline contains "/dontLog:true" AND tgt.process.cmdline contains "/section:httplogging"
 false_positives: null
 tags: null
 

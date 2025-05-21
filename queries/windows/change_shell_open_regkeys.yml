@@ -1,18 +1,14 @@
 title: Change Shell Open RegKeys
 description: Detection of file association changes.
 author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Persistence
    technique: T1546
    subtechnique: 008
 operating_system: windows
-query: '--- File assoc change by registry
-
-  RegistryKeyPath In Contains Anycase ( "\shell\open\command" , "\shell\print\command"
-  , "\shell\printto\command" ) AND EventType In ( "Registry Value Create" , "Registry
-  Value Modified" )'
+query: registry.keyPath in:anycase ("\shell\open\command", "\shell\print\command", "\shell\printto\command") AND event.type in ("Registry Value Create", "Registry Value Modified")
 false_positives: 
    - Un/install of some applications
 tags: 

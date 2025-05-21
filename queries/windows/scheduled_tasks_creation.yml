@@ -1,17 +1,15 @@
 title: Scheduled Tasks Creation
 description: Detection of schtasks /create command as well as any use of the New-ScheduledTask* 
   cmdlets from powershell.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-07
 mitre:
    tactic: Execution, Persistence
    technique: T1053
    subtechnique: 005
 operating_system: windows
-query: (( TgtProcName = "schtasks.exe" AND TgtProcCmdLine ContainsCIS "/create" )
-  OR ( SrcProcCmdLine ContainsCIS "New-ScheduledTask" OR SrcProcCmdScript  ContainsCIS
-  "New-ScheduledTask" )) AND SrcProcParentName Not In ("services.exe","OfficeClickToRun.exe")
+query: ((tgt.process.name = "shtasks.exe" AND tgt.process.cmdline contains "/create") OR (src.process.cmdline contains "New-ScheduledTask" OR cmdScript.content contains "New-ScheduledTask")) AND !(src.process.parent.name in ("services.exe", "OfficeClickToRun.exe"))
 false_positives: 
    - NPCAP driver task
    - Legitimate task creation

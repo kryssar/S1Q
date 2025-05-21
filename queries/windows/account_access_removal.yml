@@ -1,17 +1,15 @@
 title: Account Access Removal
 description: Detects the deletion of a local user account or removal of Active Directory
   groups through powershell cmdlets.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-15
 mitre:
    tactic: Impact
    technique: T1531
    subtechnique: 
 operating_system: windows
-query: SrcProcCmdline RegExp "net\s+user(?:(?!\s+/delete)(?:.|\n))*\s+/delete" OR
-  TgtProcCmdLine  ContainsCIS "Remove-ADGroupMember" OR SrcProcCmdScript ContainsCIS
-  "Remove-ADGroupMember"
+query: os.name in:anycase ("windows") && (osSrc.process.cmdline matches "net\\s+user(?:(?!\\s+/delete)(?:.|\\n))*\\s+/delete" || tgt.process.cmdline contains "Remove-ADGroupMember" || src.process.script contains "Remove-ADGroupMember")
 false_positives: 
 tags: 
 references:

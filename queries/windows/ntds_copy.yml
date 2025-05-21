@@ -1,17 +1,14 @@
 title: NTDS Copy
 description: Detection of credential file copies, either NTDS.dit or SYSTEM whether a VSS copy or not.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-24
 mitre:
    tactic: Credential Access
    technique: T1003
    subtechnique: 003
 operating_system: windows
-query: SrcProcCmdline RegExp "^.*copy.*\\Windows\\NTDS\\NTDS.dit.*" OR SrcProcCmdline
-  RegExp "^.*copy.*\\Windows\\System32\\config\\SYSTEM .*" OR SrcProcCmdline ContainsCIS
-  "save HKLM\SYSTEM" OR (TgtProcName = "ntdsutil.exe" AND TgtProcCmdline ContainsCIS
-  "ac i ntds") OR (TgtProcName = "mklink.exe" and  TgtProcCmdline RegExp "^.*\/[d,D].*GLOBALROOT\\Device\\HarddiskVolumeShadowCopy.*")
+query: src.process.cmdline matches '^.*copy.*\\\\Windows\\\\NTDS\\\\NTDS.dit.*' OR src.process.cmdline matches '^.*copy.*\\\\Windows\\\\System32\\\\config\\\\SYSTEM .*' OR src.process.cmdline contains 'save HKLM\\SYSTEM' OR (tgt.process.name = 'ntdsutil.exe' AND tgt.process.cmdline contains 'ac i ntds') OR (tgt.process.name = 'mklink.exe' and tgt.process.cmdline matches '^.*\/([dD]).*GLOBALROOT\\\\Device\\\\HarddiskVolumeShadowCopy.*')
 false_positives: null
 tags: null
 

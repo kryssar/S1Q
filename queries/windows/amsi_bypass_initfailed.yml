@@ -1,15 +1,14 @@
 title: AMSI Bypass Through InitFailed
 description: Detects AMSI bypass through InitFailed.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-15
 mitre:
    tactic: Defense Evasion
    technique: T1562
    subtechnique: 001
 operating_system: windows
-query: TgtProcCmdLine ContainsCIS "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)"
-  OR SrcProcCmdScript ContainsCIS "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)"
+query: tgt.process.cmdline contains "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)" || src.process.script contains "[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)"
 false_positives: 
 tags: 
 references:

@@ -1,16 +1,14 @@
 title: Allow SMB and RDP on Defender Firewall
 description: Detects addition of Defender firewall rules for SMB and RDP.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-15 
 mitre:
    tactic: Defense Evasion
    technique: T1562
    subtechnique: 002
 operating_system: windows
-query: (TgtProcName = "netsh.exe" AND TgtProcCmdLine ContainsCIS "remote desktop"
-  AND TgtProcCmdLine ContainsCIS "enable=Yes") OR (TgtProcName = "netsh.exe" AND TgtProcCmdLine
-  ContainsCIS "file and printer sharing" AND TgtProcCmdLine ContainsCIS "enable=Yes")
+query: (tgt.process.name == "netsh.exe" && tgt.process.cmdline contains "remote desktop" && tgt.process.cmdline contains "enable=Yes" ) || (tgt.process.name == "netsh.exe" && tgt.process.cmdline contains "file and printer sharing" && tgt.process.cmdline contains "enable=Yes" ) && !(account.name contains 'DW')
 false_positives: 
 tags: 
 references:

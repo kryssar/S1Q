@@ -1,14 +1,14 @@
 title: Edge or IE Credential Extraction with PowerShell
 description: Detects the extraction of Edge or Internet Explorer PasswordVault credentials with PowerShell.
-author: keyboardcrunch
-date: 24/11/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-11-24
+modified: 2025-04-17
 mitre: 
    tactic: Credential Access
    technique: T1555
    subtechnique: 003
 operating_system: windows
-query: SrcProcCmdScript ContainsCIS "Windows.Security.Credentials.PasswordVault" OR SrcProcCmdScript ContainsCIS "RetrievePassword"
+query: cmdScript.content contains:anycase ("Windows.Security.Credentials.PasswordVault") OR cmdScript.content contains:anycase ("RetrievePassword")
 false_positives:
 tags:
 references:

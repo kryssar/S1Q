@@ -1,15 +1,14 @@
 title: Startup Folder Persistence
 description: Detect any vbs, jse or bat files being written to any Programs\StartUp folder, be that ProgramData or AppData locations.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-21
 mitre:
    tactic: Persistence
    technique: T1547
    subtechnique: 001
 operating_system: windows
-query: FileFullName ContainsCIS "Programs\Startup" AND FileType In Contains Anycase
-  ("vbs","jse","bat") AND EventType = "File Creation"
+query: tgt.file.path contains:anycase 'Programs\\Startup' AND tgt.file.type contains:anycase ('vbs', 'jse', 'bat') AND event.type = 'File Creation' 
 false_positives: null
 tags: null
 

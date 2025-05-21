@@ -1,15 +1,14 @@
 title: Windows Share Creation
 description: Detecting the creation and use of Windows shares, may catch a lot of legitimate activity.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-21
 mitre:
    tactic: Lateral Movement
    technique: T1021
    subtechnique: 002
 operating_system: windows
-query: TgtProcCmdLine ContainsCIS "New-PSDrive" OR (TgtProcName = "net.exe" AND TgtProcCmdLine
-  ContainsCIS "use ")
+query: (tgt.process.cmdline contains:anycase 'New-PSDrive' OR (tgt.process.name = 'net.exe' AND tgt.process.cmdline contains:anycase ('use')))
 false_positives: 
    - Share creation
 tags: 

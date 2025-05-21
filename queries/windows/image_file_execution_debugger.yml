@@ -1,17 +1,15 @@
 title: Image File Execution Debugger
 description: Detections addition of a debugger process to executables using Image
   File Execution Options.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-17
 mitre:
    tactic: Privilege Escalation, Persistence
    technique: T1546
    subtechnique: 008
 operating_system: windows
-query: (RegistryKeyPath ContainsCIS "CurrentVersion\Image File Execution Options"
-  AND RegistryKeyPath ContainsCIS ".exe\Debugger") AND (EventType = "Registry Value
-  Create" OR EventType = "Registry Key Create")
+query: registry.keyPath contains:anycase ("CurrentVersion\Image File Execution Options","CurrentVersion\SilentProcessExit") AND registry.keyPath contains:anycase ("GlobalFlag","ReportingMode","MonitorProcess")
 false_positives: null
 tags: null
 

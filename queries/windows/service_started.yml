@@ -1,16 +1,27 @@
-title: Service Started
-description: Detection of sc.exe start or start-service.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+title: Expanded Service Execution Detection
+description: Detects creation and start of services via sc.exe, powershell, net.exe, and remote techniques. Expanded for ATT&CK T1569.002 coverage.
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-21
 mitre:
    tactic: Execution
    technique: T1569
    subtechnique: 002
 operating_system: windows
-query: (( SrcProcName = "sc.exe" AND SrcProcCmdLine ContainsCIS "create" ) OR SrcProcCmdLine
-  ContainsCIS "Start-Service" ) AND SrcProcParentName != "services.exe"
+query: ((src.process.name == "sc.exe" && src.process.cmdline contains:anycase "create") ||  (src.process.name == "sc.exe" && src.process.cmdline matches ".*binPath=.*") || (src.process.cmdline contains:anycase "Start-Service") || (src.process.name == "powershell.exe" && src.process.cmdline matches ".*Start-Service.*") || (src.process.name == "net.exe" && src.process.cmdline contains:anycase "start") || (src.process.cmdline matches ".*\\\\127\\.0\\.0\\.1\\\\ADMIN\\$.*" || src.process.cmdline matches ".*\\\\\\\\.*\\\\ADMIN\\$.*")) && !(src.process.parent.name in ("services.exe", "CcmExec.exe", "TrustedInstaller.exe", "msiexec.exe", "Updater.exe", "wmiprvse.exe", "svchost.exe") || src.process.parent.name matches "ctx.*") && !(src.process.cmdline matches ".*\\\\Program Files.*" || src.process.cmdline matches ".*\\\\Windows\\\\System32.*" || src.process.cmdline matches ".*test.*" || src.process.cmdline matches ".*dev.*") && !(src.user.username in ("NT AUTHORITY\\SYSTEM", "NT AUTHORITY\\LOCAL SERVICE", "NT AUTHORITY\\NETWORK SERVICE"))
 false_positives: 
-   - Manual service actions.
-tags: 
+- Manual service management by administrators
+- Legitimate software installers or updates
+- Scripts executed by trusted EDR or management systems
+- Policy-enforced service controls like BranchCache toggles
+tags:
+- T1569.002
+- sc.exe
+- powershell
+- net.exe
+- remote-service
+- lateral-movement
+- execution
+- service-creation
+
 

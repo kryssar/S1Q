@@ -1,15 +1,15 @@
 title: Service Created
 description: Detects creation and modification of windows services through binPath
   argument to sc.exe.
-author: keyboardcrunch
-date: 10/10/2020
-modified: 05/12/2020
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-21
 mitre:
    tactic: Privilege Escalation
    technique: T1543
    subtechnique: 003
 operating_system: windows
-query: TgtProcName = "sc.exe" AND TgtProcCmdLine Contains "binPath="
+query: tgt.process.name = 'sc.exe' AND tgt.process.cmdline contains:anycase 'binPath=' AND !(tgt.process.cmdline contains:anycase 'Cloudflare')
 false_positives: 
 tags: 
 

@@ -1,15 +1,13 @@
 title: Application Shimming
 description: Detects application shimming through sdbinst or registry modification.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-15
 mitre:
    tactic: Privilege Escalation, Persistence
    technique: T1546
    subtechnique: 008
 operating_system: windows
-query: (SrcProcName = "sdbinst.exe" and ProcessCmd ContainsCIS ".sdb") OR ((RegistryKeyPath
-  ContainsCIS "AppInit_DLLs" OR RegistryPath  ContainsCIS "AppCompatFlags") AND (EventType
-  = "Registry Value Create" OR EventType = "Registry Value Modified"))
+query: (src.process.name == "sdbinst.exe" && src.process.cmdline contains ".sdb" ) || ( ( registry.keyPath contains "AppInit_DLLs" || registry.path contains "AppCompatFlags" ) && ( event.type == "Registry Value Create" || event.type == "Registry Value Modified"))
 false_positives: null
 tags: null

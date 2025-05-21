@@ -1,12 +1,20 @@
-# SentinelOne Queries
+## 2025-04-16
+Query string in the '.yml' files are tested with PowerQuery mainly, but they can easily be performed in "Deep Visibility" as well by tiny adjustments. Might create two different tracks depending on time.
+// kryssar
+
+## 2025-04-15 
+Time for syntax update, since S1 have moved over to their 2.x version, the syntaxes mentioned here are no longer functioning the way it used to.
+// kryssar
+
+## SentinelOne Queries
 Repository of SentinelOne Deep Visibility queries.
 
-## What These Are
+### What These Are
 This repository contains yaml files documenting SentinelOne Deep Visibility queries, divided up by Operating System. These yaml files take inspiration from the [SIGMA Signatures](https://github.com/Neo23x0/sigma/) project and provide better programmatic access to SentinelOne queries for the later purpose of mapping to Mitre Attack, providing a query navigator, as well as other hunting tools.
 
 *__Side note:__ Most of these rules were created by converting the markdown files from [ATT&CK Mapped SentinelOne Queries](https://github.com/keyboardcrunch/SentinelOne-ATTACK-Queries) repository. Some of the descriptions, references, and false positive information needs to be cleaned up or filled out.*
 
-## Query Files
+### Query Files
 Query files document what the goal of the query, references, tags, mitre mapping, and authors. These files can optionally include more than one query, so if you were to create multiple queries for T1055 Process Injection you could store them all in a single file called t1055_process_injection.yml.
 
 ```

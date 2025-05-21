@@ -1,18 +1,14 @@
 title: LSASS Memory Dumping
 description: Detection of wce (by hash), procdump, comsvc, dumpert, mimikatz, pypykatz, and werfault for LSASS dumping all in one query.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-04-22
 mitre:
    tactic: Credential Access
    technique: T1003
    subtechnique: 001
 operating_system: windows
-query: TgtProcImageSha1 = "f0c52cea19c204f5cdbe952cc7cfc182e20d8d43" OR TgtProcCmdline
-  ContainsCIS "-ma lsass.exe" OR TgtProcCmdline ContainsCIS "comsvcs.dll, MiniDump"
-  OR TgtFilePath = "C:\Windows\Temp\dumpert.dmp" OR TgtFilePath RegExp "^.*lsass.*.DMP"
-  OR (SrcProcCmdline ContainsCIS "sekurlsa::minidump" OR SrcProcCmdline ContainsCIS
-  "sekurlsa::logonpasswords") OR SrcProcCmdline ContainsCIS "live lsa"
-false_positives: null
+query: tgt.process.image.sha1 = "f0c52cea19c204f5cdbe952cc7cfc182e20d8d43" OR tgt.process.cmdline contains "-ma lsass.exe" OR tgt.process.cmdline contains "comsvcs.dll, MiniDump" OR tgt.file.path = "C:\Windows\Temp\dumpert.dmp" or tgt.file.path matches "^.*lsass.*.DMP" OR (src.process.cmdline contains "sekurlsa::minidump" OR src.process.cmdline contains "sekurlsa::logonpasswords") OR src.process.cmdline contains "live lsa"
+false_positives: /Users/<USER>/Library/Developer/Xcode/UserData/Previews/Simulator Devices/<DEVICE-ID>/data/private/var/protected/trustd/SupplementalsAssets/.dat.nosync<ID>.<Identifier> the file-ending contains dMp or DMp and similar, which causes false positives.
 tags: null
 
