@@ -1,14 +1,14 @@
 title: Visual Basic Execution From Temp
 description: Detect execution of vbs files from any Temp\ directory to be more useful.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-21
 mitre:
    tactic: Execution
    technique: T1059
    subtechnique: 005
 operating_system: windows
-query: SrcProcName = "cscript.exe" AND SrcProcCmdLine RegExp "\bTemp\b.*\.(vbs)"
+query: src.process.name = 'cscript.exe' AND src.process.cmdline matches '\bTemp\b.*\.(vbs)'
 false_positives: null
 tags: null
 

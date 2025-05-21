@@ -1,17 +1,15 @@
 title: Windows Management Instrumentation
 description: Detection query has been limited to wmic.exe, and focuses on discovery and execution
   commandlines.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-21
 mitre:
    tactic: Execution
    technique: T1047
    subtechnique: null
 operating_system: windows
-query: ( SrcProcName = "WMIC.exe" AND SrcProcCmdLine In Contains Anycase ("useraccount
-  get","process get","qfe get","service where","process call","call create") ) AND
-  SrcProcParentName Not In ("msiexec.exe")
+query: (src.process.name = 'WMIC.exe' AND src.process.cmdline contains:anycase ('useraccount get', 'process get', 'qfe get', 'service where', 'process call', 'call create')) AND !(src.process.parent.name in ('msiexec.exe'))
 false_positives: null
 tags: null
 

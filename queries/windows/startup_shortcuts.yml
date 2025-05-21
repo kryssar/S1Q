@@ -1,17 +1,17 @@
 title: Startup Shortcuts
 description: Detection .lnk or .url files written to Startup folders.
-author: keyboardcrunch
-date: 10/10/2020
-modified: null
+author: keyboardcrunch && kryssar
+date: 2020-10-10
+modified: 2025-05-21
 mitre:
    tactic: Privilege Escalation, Persistence
    technique: T1547
    subtechnique: 009
 operating_system: windows
-query: (FileFullName ContainsCIS "Microsoft\Windows\Start Menu\Programs\Startup" AND
-  TgtFileExtension In Contains ("lnk","url") AND EventType = "File Creation") AND
-  SrcProcName Not In ("ONENOTE.EXE","msiexec.exe")
+query: (tgt.file.path contains:anycase 'Microsoft\\Windows\\Start Menu\\Programs\\Startup' AND tgt.file.extension contains ('lnk', 'url') AND event.type = 'File Creation') AND !(src.process.name in ('ONENOTE.EXE', 'msiexec.exe'))
 false_positives: 
    - Some application installs.
+   - Citrix Workspace Environment Management (WEM) may create shortcuts in the startup folder.
+   - Solidworks may create shortcuts in the startup folder.
 tags: null
 
